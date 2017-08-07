@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KenBonny.Search.Core\KenBonny.Search.Core.csproj">
+      <Project>{04BF2B3C-A366-4C69-8804-C105A0D16AAB}</Project>
+      <Name>KenBonny.Search.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ScoreCalculators" />
+  </ItemGroup>
+</Project>
