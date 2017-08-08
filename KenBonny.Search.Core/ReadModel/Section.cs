@@ -5,23 +5,12 @@ namespace KenBonny.Search.Core.ReadModel
     public class Section
     {
         private Restaurant _restaurant;
-        private IReadOnlyCollection<Table> _tables;
+        private List<Table> _tables;
         private IReadOnlyCollection<Server> _servers;
 
         public int Id { get; set; }
         
-        public IReadOnlyCollection<Table> Tables
-        {
-            get => _tables;
-            set
-            {
-                _tables = value;
-                foreach (var table in _tables)
-                {
-                    table.Section = this;
-                }
-            }
-        }
+        public IReadOnlyCollection<Table> Tables => _tables;
 
         public IReadOnlyCollection<Server> Servers
         {
@@ -37,5 +26,11 @@ namespace KenBonny.Search.Core.ReadModel
         }
 
         public Restaurant Restaurant { get; set; }
+
+        public void AddTable(Table table)
+        {
+            table.Section = this;
+            _tables.Add(table);
+        }
     }
 }

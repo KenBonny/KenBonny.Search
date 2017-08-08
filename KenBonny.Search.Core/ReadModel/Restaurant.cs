@@ -4,20 +4,15 @@ namespace KenBonny.Search.Core.ReadModel
 {
     public class Restaurant
     {
-        private IReadOnlyCollection<Section> _section;
+        private readonly List<Section> _sections = new List<Section>();
         public string Name { get; set; }
 
-        public IReadOnlyCollection<Section> Section
+        public IReadOnlyCollection<Section> Sections => _sections;
+
+        public void AddSection(Section section)
         {
-            get => _section;
-            set
-            {
-                _section = value;
-                foreach (var section in _section)
-                {
-                    section.Restaurant = this;
-                }
-            }
+            section.Restaurant = this;
+            _sections.Add(section);
         }
     }
 }

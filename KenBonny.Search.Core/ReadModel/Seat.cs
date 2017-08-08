@@ -3,7 +3,6 @@ namespace KenBonny.Search.Core.ReadModel
     public class Seat
     {
         private Diner _diner;
-        public int Id { get; set; }
 
         public Diner Diner
         {

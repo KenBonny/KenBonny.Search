@@ -1,7 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
   </PropertyGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\KenBonny.Search.DefaultImplementation\KenBonny.Search.DefaultImplementation.csproj">
+      <Project>{2CBC4ADD-5465-4E5F-9382-01C0CD8AD651}</Project>
+      <Name>KenBonny.Search.DefaultImplementation</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
