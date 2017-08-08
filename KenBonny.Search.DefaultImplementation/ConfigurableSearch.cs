@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using KenBonny.Search.Core;
 using KenBonny.Search.Core.Queries;
@@ -25,14 +24,47 @@ namespace KenBonny.Search.DefaultImplementation
         
         public IReadOnlyCollection<Seat> FindSeats(SearchQuery query)
         {
-            var allRestaurants = _restaurantRepository.FindRestaurants(query);
-            var availableSeats = allRestaurants.SelectMany(restaurant => restaurant.Sections)
-                .SelectMany(section => section.Tables).SelectMany(table => table.Seats);
-            foreach (var filter in _filters)
-            {
-                availableSeats = filter.RemoveUnwantedSeats(availableSeats);
-            }
+            var availableSeats = GetAvailableSeats(query);
+            var scoredSeats = ScoreSeats(query, availableSeats);
+            var orderedSeats = OrderSeats(query, scoredSeats);
 
+            return orderedSeats.ToList();
+        }
+
+        private IEnumerable<Seat> OrderSeats(SearchQuery query, List<SeatWithScore> scoredSeats)
+        {
+            var orderedSeats = query.SortOrder == SortOrder.BestFirst
+                ? OrderForBestResult(scoredSeats)
+                : OrderForWorstResult(scoredSeats);
+            return orderedSeats.Select(s => s.Seat);
+        }
+
+        private IOrderedEnumerable<SeatWithScore> OrderForWorstResult(List<SeatWithScore> scoredSeats)
+        {
+            IOrderedEnumerable<SeatWithScore> orderedSeats;
+            orderedSeats = scoredSeats.OrderByDescending(s => s.TotalScore);
+
+            foreach (var sorter in _sorters)
+            {
+                orderedSeats = orderedSeats.ThenByDescending(s => s.Seat, sorter);
+            }
+            return orderedSeats;
+        }
+
+        private IOrderedEnumerable<SeatWithScore> OrderForBestResult(List<SeatWithScore> scoredSeats)
+        {
+            IOrderedEnumerable<SeatWithScore> orderedSeats;
+            orderedSeats = scoredSeats.OrderBy(s => s.TotalScore);
+
+            foreach (var sorter in _sorters)
+            {
+                orderedSeats = orderedSeats.ThenBy(s => s.Seat, sorter);
+            }
+            return orderedSeats;
+        }
+
+        private List<SeatWithScore> ScoreSeats(SearchQuery query, IEnumerable<Seat> availableSeats)
+        {
             var scoredSeats = new List<SeatWithScore>();
             foreach (var seat in availableSeats)
             {
@@ -43,42 +75,24 @@ namespace KenBonny.Search.DefaultImplementation
                     var score = calculator.CalculateScore(seat, query);
                     seatWithScore.AddScore(score, calculator);
                 }
-                
+
                 scoredSeats.Add(seatWithScore);
             }
+            return scoredSeats;
+        }
+
+        private IEnumerable<Seat> GetAvailableSeats(SearchQuery query)
+        {
+            var allRestaurants = _restaurantRepository.FindRestaurants(query);
+            var availableSeats = allRestaurants.SelectMany(restaurant => restaurant.Sections)
+                .SelectMany(section => section.Tables).SelectMany(table => table.Seats);
             
-            // todo add sorting
-            return availableSeats.ToList();
-        }
-    }
-
-    internal class SeatWithScore
-    {
-        private Dictionary<Type, int> _scores;
-
-        public SeatWithScore(Seat seat)
-        {
-            Seat = seat;
-            _scores = new Dictionary<Type, int>();
-        }
-
-        public Seat Seat { get; private set; }
-
-        public int TotalScore => _scores.Sum(pair => pair.Value);
-
-        public IReadOnlyDictionary<Type, int> Scores => _scores;
-        
-        public void AddScore(int score, IScoreCalculator calculator)
-        {
-            var type = calculator.GetType();
-            if (_scores.ContainsKey(type))
+            foreach (var filter in _filters)
             {
-                _scores[type] = score;
+                availableSeats = filter.RemoveUnwantedSeats(availableSeats);
             }
-            else
-            {
-                _scores.Add(type, score);                
-            }
+            
+            return availableSeats;
         }
     }
 }
