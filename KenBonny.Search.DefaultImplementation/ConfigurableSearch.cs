@@ -26,8 +26,8 @@ namespace KenBonny.Search.DefaultImplementation
         public IReadOnlyCollection<Seat> FindSeats(SearchQuery query)
         {
             var allRestaurants = _restaurantRepository.FindRestaurants(query);
-            IList<Seat> availableSeats = allRestaurants.SelectMany(restaurant => restaurant.Sections)
-                .SelectMany(section => section.Tables).SelectMany(table => table.Seats).ToList();
+            var availableSeats = allRestaurants.SelectMany(restaurant => restaurant.Sections)
+                .SelectMany(section => section.Tables).SelectMany(table => table.Seats);
             foreach (var filter in _filters)
             {
                 availableSeats = filter.RemoveUnwantedSeats(availableSeats);

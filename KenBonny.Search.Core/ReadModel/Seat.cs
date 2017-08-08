@@ -15,5 +15,6 @@ namespace KenBonny.Search.Core.ReadModel
         }
 
         public Table Table { get; set; }
+        public bool IsEmpty => Diner == null;
     }
 }
