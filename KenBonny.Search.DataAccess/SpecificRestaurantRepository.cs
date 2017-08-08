@@ -18,31 +18,7 @@ namespace KenBonny.Search.DataAccess
                     $"Cannot execute query based on insufficient data: passed {query.GetType().Name} instead of {nameof(UnreservedSeatInRestaurantQuery)}");
             }
             
-            var restaurants = RestaurantsBuilder.Init()
-                .AddRestaurant("Come Chez Moi")
-                .AddSection("Ken")
-                .AddTable(2)
-                .AddTable(4)
-                .AddTable(4)
-                .AddSection("Kelly")
-                .AddTable(4)
-                .AddTable(8)
-                .AddRestaurant("De Peirdestal")
-                .AddSection("Joxer")
-                .AddTable(2)
-                .AddTable(2)
-                .AddTable(4)
-                .AddTable(4)
-                .AddSection("Danny")
-                .AddTable(6)
-                .AddTable(6)
-                .AddSection("Stijn")
-                .AddTable(4)
-                .AddTable(6)
-                .AddTable(6)
-                .BuildRestaurants();
-
-            return restaurants.Where(r => r.Name.Equals(unreservedSeatInRestaurantQuery.Restaurant)).ToList();
+            return MockDatabase.Restaurants().Where(r => r.Name.Equals(unreservedSeatInRestaurantQuery.Restaurant)).ToList();
         }
     }
 }
