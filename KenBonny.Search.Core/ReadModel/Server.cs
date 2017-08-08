@@ -14,5 +14,10 @@ namespace KenBonny.Search.Core.ReadModel
         {
             _sections.Add(section);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

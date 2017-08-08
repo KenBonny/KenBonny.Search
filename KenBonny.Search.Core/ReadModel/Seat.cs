@@ -6,7 +6,7 @@ namespace KenBonny.Search.Core.ReadModel
 
         public Diner Diner
         {
-            get { return _diner; }
+            get => _diner;
             set
             {
                 _diner = value;
@@ -17,5 +17,11 @@ namespace KenBonny.Search.Core.ReadModel
         public Table Table { get; set; }
         public bool IsEmpty => Diner == null;
         public bool IsOccupied => Diner != null;
+
+        public override string ToString()
+        {
+            var diner = Diner?.ToString() ?? "Nobody";
+            return $"Placed at {Table}, here sits {diner}";
+        }
     }
 }

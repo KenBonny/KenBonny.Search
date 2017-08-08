@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace KenBonny.Search.Core.ReadModel
 {
     public class Section
     {
+        private readonly List<Table> _tables = new List<Table>();
+
         private Restaurant _restaurant;
-        private List<Table> _tables;
         private IReadOnlyCollection<Server> _servers;
 
         public int Id { get; set; }
@@ -14,7 +16,7 @@ namespace KenBonny.Search.Core.ReadModel
 
         public IReadOnlyCollection<Server> Servers
         {
-            get { return _servers; }
+            get => _servers;
             set
             {
                 _servers = value;
@@ -31,6 +33,13 @@ namespace KenBonny.Search.Core.ReadModel
         {
             table.Section = this;
             _tables.Add(table);
+        }
+
+        public override string ToString()
+        {
+            var servers = string.Join(", ", Servers);
+            var tables = string.Join(", ", Tables.Select(t => t.Id));
+            return $"Section {Id} is served by {servers} for tables {tables}";
         }
     }
 }

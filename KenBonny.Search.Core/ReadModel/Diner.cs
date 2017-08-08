@@ -10,5 +10,10 @@ namespace KenBonny.Search.Core.ReadModel
         public string LastName { get; set; }
 
         public Seat Seat { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

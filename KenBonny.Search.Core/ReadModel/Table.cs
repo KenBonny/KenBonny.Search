@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KenBonny.Search.Core.ReadModel
 {
@@ -21,5 +22,11 @@ namespace KenBonny.Search.Core.ReadModel
         }
 
         public Section Section { get; set; }
+
+        public override string ToString()
+        {
+            var diners = string.Join(", ", Seats.Where(s => s.IsOccupied).Select(s => s.Diner));
+            return $"Table {Id} (seated: {diners})";
+        }
     }
 }
