@@ -27,5 +27,19 @@ namespace KenBonny.Search.Tests
             seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
             seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
         }
+
+        [Fact]
+        public void LookForSeatForDiner()
+        {
+            ISearcher search = new ConfigurableSearch(new AllRestaurantRepository(), new[] {new EmptySeatsFilter()},
+                new[] {new SameFamilyScoreCalculator()}, new[] {new PreferTablesWithGuestsSorter()});
+            var query = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
+
+            var seats = search.FindSeats(query);
+
+            seats.Should().HaveCount(58, "Should only be the empty seats from 'De Peirdestal'");
+            seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
+            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
+        }
     }
 }
