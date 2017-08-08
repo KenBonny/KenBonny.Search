@@ -7,6 +7,7 @@ using KenBonny.Search.DataAccess;
 using KenBonny.Search.DefaultImplementation;
 using KenBonny.Search.DefaultImplementation.Decorators;
 using KenBonny.Search.DefaultImplementation.Filters;
+using KenBonny.Search.DefaultImplementation.Mediator;
 using KenBonny.Search.DefaultImplementation.ScoreCalculators;
 using KenBonny.Search.DefaultImplementation.Sorters;
 using Xunit;
@@ -74,6 +75,34 @@ namespace KenBonny.Search.Tests
             var seats = reservationChecker.FindSeats(query);
 
             seats.Should().HaveCount(58, "Should only be the empty seats from 'De Peirdestal'");
+            seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
+            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
+        }
+
+        [Fact]
+        public void RouteQueryToCorrectSearcher()
+        {
+            ISearcher searchAcrossRestaurants = new ConfigurableSearch(new SpecificRestaurantRepository(), new[] { new EmptySeatsFilter() },
+                new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
+            ISearcher searchSpecificRestaurant = new ConfigurableSearch(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+                new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
+            var mediator = new SearchMediator();
+            mediator.Register<UnreservedSeatInRestaurantQuery>(searchAcrossRestaurants);
+            mediator.Register<UnreservedSeatForDinerQuery>(searchSpecificRestaurant);
+
+            var searcher = (ISearcher) mediator;
+
+            var unreservedSeatForDinerQuery = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
+            var seats = searcher.FindSeats(unreservedSeatForDinerQuery);
+
+            seats.Should().HaveCount(58, "Should only be the empty seats from 'De Peirdestal'");
+            seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
+            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
+
+            var query = new UnreservedSeatInRestaurantQuery("De Peirdestal");
+            seats = searcher.FindSeats(query);
+
+            seats.Should().HaveCount(38, "Should only be the empty seats from 'De Peirdestal'");
             seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
             seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
         }
