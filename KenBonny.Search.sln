@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenBonny.Search.Core", "Ken
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenBonny.Search.DefaultImplementation", "KenBonny.Search.DefaultImplementation\KenBonny.Search.DefaultImplementation.csproj", "{2CBC4ADD-5465-4E5F-9382-01C0CD8AD651}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenBonny.Search.DataAccess", "KenBonny.Search.DataAccess\KenBonny.Search.DataAccess.csproj", "{D38C061C-DBDF-4545-A034-8851D7C01748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenBonny.Search.Tests", "KenBonny.Search.Tests\KenBonny.Search.Tests.csproj", "{1B53B9C6-23D6-4023-B5E9-A0108204A64F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{2CBC4ADD-5465-4E5F-9382-01C0CD8AD651}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CBC4ADD-5465-4E5F-9382-01C0CD8AD651}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CBC4ADD-5465-4E5F-9382-01C0CD8AD651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38C061C-DBDF-4545-A034-8851D7C01748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38C061C-DBDF-4545-A034-8851D7C01748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38C061C-DBDF-4545-A034-8851D7C01748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38C061C-DBDF-4545-A034-8851D7C01748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B53B9C6-23D6-4023-B5E9-A0108204A64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B53B9C6-23D6-4023-B5E9-A0108204A64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B53B9C6-23D6-4023-B5E9-A0108204A64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B53B9C6-23D6-4023-B5E9-A0108204A64F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
