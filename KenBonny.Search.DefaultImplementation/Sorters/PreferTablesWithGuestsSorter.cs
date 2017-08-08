@@ -1,8 +1,9 @@
-﻿using KenBonny.Search.Core.ReadModel;
+﻿using System.Linq;
+using KenBonny.Search.Core.ReadModel;
 
 namespace KenBonny.Search.DefaultImplementation.Sorters
 {
-    public class LowOccupancySorter : ISorter
+    public class PreferTablesWithGuestsSorter : ISorter
     {
         private const int Equal = 0;
         private const int PreferLeft = 1;
@@ -26,7 +27,7 @@ namespace KenBonny.Search.DefaultImplementation.Sorters
             }
 
             // ReSharper disable PossibleNullReferenceException
-            return left.Table.Seats.Count - right.Table.Seats.Count;
+            return right.Table.Seats.Count(s => s.IsOccupied) - left.Table.Seats.Count(s => s.IsOccupied);
             // ReSharper restore PossibleNullReferenceException
         }
 

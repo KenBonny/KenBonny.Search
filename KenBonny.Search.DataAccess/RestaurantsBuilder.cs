@@ -48,8 +48,20 @@ namespace KenBonny.Search.DataAccess
                 seatsList.Add(new Seat());
             }
 
-            var table = new Table { Seats = seatsList};
+            var table = new Table
+            {
+                Id = _restaurants.Last().Sections.Last().Tables.Count,
+                Seats = seatsList
+            };
             _restaurants.Last().Sections.Last().AddTable(table);
+
+            return this;
+        }
+
+        internal RestaurantsBuilder AddDiner(string firstName, string lastName)
+        {
+            var diner = new Diner{ FirstName = firstName, LastName = lastName };
+            _restaurants.Last().Sections.Last().Tables.Last().Seats.First(s => s.IsEmpty).Diner = diner;
 
             return this;
         }
