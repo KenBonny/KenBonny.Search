@@ -8,7 +8,4 @@
       <Name>KenBonny.Search.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ScoreCalculators" />
-  </ItemGroup>
 </Project>

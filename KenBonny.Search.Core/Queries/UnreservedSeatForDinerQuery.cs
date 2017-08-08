@@ -1,14 +1,15 @@
-﻿using KenBonny.Search.Core.ReadModel;
-
-namespace KenBonny.Search.Core.Queries
+﻿namespace KenBonny.Search.Core.Queries
 {
     public class UnreservedSeatForDinerQuery : SearchQuery
     {
-        public UnreservedSeatForDinerQuery(Diner diner, SortOrder sortOrder = SortOrder.BestFirst) : base(sortOrder)
+        public UnreservedSeatForDinerQuery(string dinerFirstName, string dinerLastName, SortOrder sortOrder = SortOrder.BestFirst) : base(sortOrder)
         {
-            Diner = diner;
+            DinerFirstName = dinerFirstName;
+            DinerLastName = dinerLastName;
         }
 
-        public Diner Diner { get; }
+        public string DinerFirstName { get; }
+        
+        public string DinerLastName { get; }
     }
 }
