@@ -3,7 +3,7 @@ using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DefaultImplementation
 {
-    public interface ISorter : IComparer<Seat>
+    public interface ISorter : IComparer<ISeat>
     {
     }
 }

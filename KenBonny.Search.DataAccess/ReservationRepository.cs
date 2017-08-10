@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KenBonny.Search.DataAccess.ReadModel;
 using KenBonny.Search.DefaultImplementation.Decorators;
 using KenBonny.Search.DefaultImplementation.ReadModel;
 
@@ -6,7 +7,7 @@ namespace KenBonny.Search.DataAccess
 {
     public class ReservationRepository : IReservationRepository
     {
-        public Seat FindReservedSeat(string firstName, string lastName)
+        public ISeat FindReservedSeat(string firstName, string lastName)
         {
             var restaurants = MockDatabase.Restaurants();
             return restaurants

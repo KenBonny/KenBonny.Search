@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
+using KenBonny.Search.DefaultImplementation.ReadModel;
 
-namespace KenBonny.Search.DefaultImplementation.ReadModel
+namespace KenBonny.Search.DataAccess.ReadModel
 {
-    public class Table
+    public class Table : ITable
     {
         private IReadOnlyCollection<Seat> _seats;
-        public int Id { get; set; }
+        public int Id { get; internal set; }
 
-        public IReadOnlyCollection<Seat> Seats
+        public IReadOnlyCollection<ISeat> Seats
         {
             get => _seats;
             set
             {
-                _seats = value;
+                _seats = (IReadOnlyCollection<Seat>) value;
                 foreach (var seat in _seats)
                 {
                     seat.Table = this;
@@ -21,7 +22,7 @@ namespace KenBonny.Search.DefaultImplementation.ReadModel
             }
         }
 
-        public Section Section { get; set; }
+        public ISection Section { get; internal set; }
         public bool IsEmpty => _seats.All(seat => seat.IsEmpty);
 
         public override string ToString()

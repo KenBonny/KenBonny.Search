@@ -12,7 +12,7 @@ namespace KenBonny.Search.DefaultImplementation.ScoreCalculators
         private const int EmptyTable = 2;
         private const int TableWithStrangers = 3;
         
-        public int CalculateScore(Seat seat, SearchQuery query)
+        public int CalculateScore(ISeat seat, SearchQuery query)
         {
             var unreservedSeatForDinerQuery = query as UnreservedSeatForDinerQuery;
             if (unreservedSeatForDinerQuery == null)
@@ -33,7 +33,7 @@ namespace KenBonny.Search.DefaultImplementation.ScoreCalculators
             return TableWithStrangers;
         }
 
-        private static bool SameFamily(Seat s, UnreservedSeatForDinerQuery query)
+        private static bool SameFamily(ISeat s, UnreservedSeatForDinerQuery query)
         {
             return s.Diner.LastName.Equals(query.DinerLastName, StringComparison.OrdinalIgnoreCase);
         }

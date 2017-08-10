@@ -6,7 +6,7 @@ namespace KenBonny.Search.DefaultImplementation.Filters
 {
     public class EmptySeatsFilter : IFilter
     {
-        public IEnumerable<Seat> RemoveUnwantedSeats(IEnumerable<Seat> availalbeSeats)
+        public IEnumerable<ISeat> RemoveUnwantedSeats(IEnumerable<ISeat> availalbeSeats)
         {
             return availalbeSeats.Where(seat => seat.IsEmpty);
         }

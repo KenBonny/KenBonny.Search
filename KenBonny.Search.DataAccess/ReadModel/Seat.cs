@@ -1,20 +1,23 @@
-namespace KenBonny.Search.DefaultImplementation.ReadModel
+using KenBonny.Search.DefaultImplementation.ReadModel;
+
+namespace KenBonny.Search.DataAccess.ReadModel
 {
-    public class Seat
+    public class Seat : ISeat
     {
         private Diner _diner;
 
-        public Diner Diner
+        public IDiner Diner
         {
             get => _diner;
-            set
+            internal set
             {
-                _diner = value;
+                _diner = (Diner) value;
                 _diner.Seat = this;
             }
         }
 
-        public Table Table { get; set; }
+        public ITable Table { get; internal set; }
+        
         public bool IsEmpty => Diner == null;
         public bool IsOccupied => Diner != null;
 

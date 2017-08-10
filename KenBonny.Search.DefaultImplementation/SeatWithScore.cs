@@ -9,13 +9,13 @@ namespace KenBonny.Search.DefaultImplementation
     {
         private Dictionary<Type, int> _scores;
 
-        public SeatWithScore(Seat seat)
+        public SeatWithScore(ISeat seat)
         {
             Seat = seat;
             _scores = new Dictionary<Type, int>();
         }
 
-        public Seat Seat { get; private set; }
+        public ISeat Seat { get; private set; }
 
         public int TotalScore => _scores.Sum(pair => pair.Value);
 

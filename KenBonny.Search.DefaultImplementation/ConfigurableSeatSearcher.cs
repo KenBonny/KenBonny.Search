@@ -31,14 +31,14 @@ namespace KenBonny.Search.DefaultImplementation
             return MapResult(orderedSeats);
         }
 
-        private static List<Core.ReturnModel.Seat> MapResult(IEnumerable<Seat> orderedSeats)
+        private static List<Core.ReturnModel.Seat> MapResult(IEnumerable<ISeat> orderedSeats)
         {
             return orderedSeats.Select(seat =>
                     new Core.ReturnModel.Seat(seat.Table.Section.Restaurant.Name, seat.Table.Section.Id, seat.Table.Id))
                 .ToList();
         }
 
-        private IEnumerable<Seat> OrderSeats(SearchQuery query, List<SeatWithScore> scoredSeats)
+        private IEnumerable<ISeat> OrderSeats(SearchQuery query, List<SeatWithScore> scoredSeats)
         {
             var orderedSeats = query.SortOrder == SortOrder.BestFirst
                 ? OrderForBestResult(scoredSeats)
@@ -70,7 +70,7 @@ namespace KenBonny.Search.DefaultImplementation
             return orderedSeats;
         }
 
-        private List<SeatWithScore> ScoreSeats(SearchQuery query, IEnumerable<Seat> availableSeats)
+        private List<SeatWithScore> ScoreSeats(SearchQuery query, IEnumerable<ISeat> availableSeats)
         {
             var scoredSeats = new List<SeatWithScore>();
             foreach (var seat in availableSeats)
@@ -88,7 +88,7 @@ namespace KenBonny.Search.DefaultImplementation
             return scoredSeats;
         }
 
-        private IEnumerable<Seat> GetAvailableSeats(SearchQuery query)
+        private IEnumerable<ISeat> GetAvailableSeats(SearchQuery query)
         {
             var allRestaurants = _restaurantRepository.FindRestaurants(query);
             var availableSeats = allRestaurants.SelectMany(restaurant => restaurant.Sections)

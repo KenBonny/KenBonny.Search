@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KenBonny.Search.DataAccess.ReadModel;
 using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DataAccess

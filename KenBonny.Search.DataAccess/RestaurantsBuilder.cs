@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KenBonny.Search.DataAccess.ReadModel;
 using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DataAccess
@@ -48,12 +49,13 @@ namespace KenBonny.Search.DataAccess
                 seatsList.Add(new Seat());
             }
 
+            var section = (Section) _restaurants.Last().Sections.Last();
             var table = new Table
             {
-                Id = _restaurants.Last().Sections.Last().Tables.Count,
+                Id = section.Tables.Count,
                 Seats = seatsList
             };
-            _restaurants.Last().Sections.Last().AddTable(table);
+            section.AddTable(table);
 
             return this;
         }
@@ -61,7 +63,8 @@ namespace KenBonny.Search.DataAccess
         internal RestaurantsBuilder AddDiner(string firstName, string lastName)
         {
             var diner = new Diner{ FirstName = firstName, LastName = lastName };
-            _restaurants.Last().Sections.Last().Tables.Last().Seats.First(s => s.IsEmpty).Diner = diner;
+            var seat = (Seat) _restaurants.Last().Sections.Last().Tables.Last().Seats.First(s => s.IsEmpty);
+            seat.Diner = diner;
 
             return this;
         }

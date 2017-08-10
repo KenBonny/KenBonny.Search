@@ -6,6 +6,6 @@ namespace KenBonny.Search.DefaultImplementation
 {
     public interface IRestaurantRepository
     {
-        IList<Restaurant> FindRestaurants(SearchQuery query);
+        IList<IRestaurant> FindRestaurants(SearchQuery query);
     }
 }

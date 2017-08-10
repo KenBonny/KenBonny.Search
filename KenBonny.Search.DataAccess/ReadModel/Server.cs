@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using KenBonny.Search.DefaultImplementation.ReadModel;
 
-namespace KenBonny.Search.DefaultImplementation.ReadModel
+namespace KenBonny.Search.DataAccess.ReadModel
 {
-    public class Server
+    public class Server : IServer
     {
         private List<Section> _sections = new List<Section>();
         
         public string Name { get; set; }
 
-        public IReadOnlyCollection<Section> Sections => _sections;
+        public IReadOnlyCollection<ISection> Sections => _sections;
 
         internal void AddSection(Section section)
         {

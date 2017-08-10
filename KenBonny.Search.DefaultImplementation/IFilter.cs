@@ -6,6 +6,6 @@ namespace KenBonny.Search.DefaultImplementation
 {
     public interface IFilter
     {
-        IEnumerable<Seat> RemoveUnwantedSeats(IEnumerable<Seat> availalbeSeats);
+        IEnumerable<ISeat> RemoveUnwantedSeats(IEnumerable<ISeat> availalbeSeats);
     }
 }

@@ -9,7 +9,7 @@ namespace KenBonny.Search.DefaultImplementation.Sorters
         private const int PreferLeft = 1;
         private const int PreferRight = -1;
         
-        public int Compare(Seat left, Seat right)
+        public int Compare(ISeat left, ISeat right)
         {
             if (IsNull(left) && IsNull(right))
             {
@@ -31,12 +31,12 @@ namespace KenBonny.Search.DefaultImplementation.Sorters
             // ReSharper restore PossibleNullReferenceException
         }
 
-        private static bool IsNotNull(Seat seat)
+        private static bool IsNotNull(ISeat seat)
         {
             return seat != null;
         }
 
-        private static bool IsNull(Seat seat)
+        private static bool IsNull(ISeat seat)
         {
             return seat == null;
         }
