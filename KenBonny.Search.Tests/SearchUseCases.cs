@@ -21,7 +21,7 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void LookForSeatInRestaurant()
         {
-            ISearcher search = new ConfigurableSearcher(new SpecificRestaurantRepository(), new[] {new EmptySeatsFilter()},
+            ISeatSearcher search = new ConfigurableSeatSearcher(new SpecificRestaurantRepository(), new[] {new EmptySeatsFilter()},
                 new[] {new SameFamilyScoreCalculator()}, new[] {new PreferTablesWithGuestsSorter()});
             var query = new UnreservedSeatInRestaurantQuery("De Peirdestal");
 
@@ -33,7 +33,7 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void LookForSeatForDiner()
         {
-            ISearcher search = new ConfigurableSearcher(new AllRestaurantRepository(), new[] {new EmptySeatsFilter()},
+            ISeatSearcher search = new ConfigurableSeatSearcher(new AllRestaurantRepository(), new[] {new EmptySeatsFilter()},
                 new[] {new SameFamilyScoreCalculator()}, new[] {new PreferTablesWithGuestsSorter()});
             var query = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
 
@@ -45,9 +45,9 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void CheckForReservationForDinerWithReservation()
         {
-            ISearcher search = new ConfigurableSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISeatSearcher search = new ConfigurableSeatSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
-            ISearcher reservationChecker = new ReservationCheckerDecorator(search, new ReservationRepository());
+            ISeatSearcher reservationChecker = new ReservationCheckerDecorator(search, new ReservationRepository());
             var firstName = "John";
             var lastName = "Boyega";
             var query = new UnreservedSeatForDinerQuery(firstName, lastName);
@@ -64,10 +64,10 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void CheckForReservationForDinerWithoutReservation()
         {
-            ISearcher search = new ConfigurableSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISeatSearcher search = new ConfigurableSeatSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
             var query = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
-            ISearcher reservationChecker = new ReservationCheckerDecorator(search, new ReservationRepository());
+            ISeatSearcher reservationChecker = new ReservationCheckerDecorator(search, new ReservationRepository());
 
             var seats = reservationChecker.FindSeats(query);
 
@@ -77,15 +77,15 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void RouteQueryToCorrectSearcher()
         {
-            ISearcher searchAcrossRestaurants = new ConfigurableSearcher(new SpecificRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISeatSearcher searchAcrossRestaurants = new ConfigurableSeatSearcher(new SpecificRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
-            ISearcher searchSpecificRestaurant = new ConfigurableSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISeatSearcher searchSpecificRestaurant = new ConfigurableSeatSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
             var mediator = new SearchMediator();
             mediator.Register<UnreservedSeatInRestaurantQuery>(searchAcrossRestaurants);
             mediator.Register<UnreservedSeatForDinerQuery>(searchSpecificRestaurant);
 
-            var searcher = (ISearcher) mediator;
+            var searcher = (ISeatSearcher) mediator;
 
             var unreservedSeatForDinerQuery = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
             var seats = searcher.FindSeats(unreservedSeatForDinerQuery);

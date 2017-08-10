@@ -4,7 +4,7 @@ using KenBonny.Search.Core.ReturnModel;
 
 namespace KenBonny.Search.Core
 {
-    public interface ISearcher
+    public interface ISeatSearcher
     {
         IReadOnlyCollection<Seat> FindSeats(SearchQuery query);
     }

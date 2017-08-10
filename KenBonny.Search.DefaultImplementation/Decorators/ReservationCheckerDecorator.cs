@@ -6,14 +6,14 @@ using Seat = KenBonny.Search.Core.ReturnModel.Seat;
 
 namespace KenBonny.Search.DefaultImplementation.Decorators
 {
-    public class ReservationCheckerDecorator : ISearcher
+    public class ReservationCheckerDecorator : ISeatSearcher
     {
-        private readonly ISearcher _innerSearcher;
+        private readonly ISeatSearcher _innerSeatSearcher;
         private readonly IReservationRepository _reservationRepository;
 
-        public ReservationCheckerDecorator(ISearcher innerSearcher, IReservationRepository reservationRepository)
+        public ReservationCheckerDecorator(ISeatSearcher innerSeatSearcher, IReservationRepository reservationRepository)
         {
-            _innerSearcher = innerSearcher;
+            _innerSeatSearcher = innerSeatSearcher;
             _reservationRepository = reservationRepository;
         }
 
@@ -22,7 +22,7 @@ namespace KenBonny.Search.DefaultImplementation.Decorators
             var unreservedSeatForDinerQuery = query as UnreservedSeatForDinerQuery;
             if (unreservedSeatForDinerQuery == null)
             {
-                return _innerSearcher.FindSeats(query);
+                return _innerSeatSearcher.FindSeats(query);
             }
 
             var reservedSeat = _reservationRepository.FindReservedSeat(unreservedSeatForDinerQuery.DinerFirstName, unreservedSeatForDinerQuery.DinerLastName);
@@ -34,7 +34,7 @@ namespace KenBonny.Search.DefaultImplementation.Decorators
                 return new[] {returnSeat};
             }
 
-            return _innerSearcher.FindSeats(query);
+            return _innerSeatSearcher.FindSeats(query);
         }
     }
 }

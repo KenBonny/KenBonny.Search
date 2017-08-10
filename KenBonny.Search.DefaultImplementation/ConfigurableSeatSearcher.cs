@@ -6,14 +6,14 @@ using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DefaultImplementation
 {
-    public class ConfigurableSearcher : ISearcher
+    public class ConfigurableSeatSearcher : ISeatSearcher
     {
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IEnumerable<IFilter> _filters;
         private readonly IEnumerable<IScoreCalculator> _scoreCalculators;
         private readonly IEnumerable<ISorter> _sorters;
 
-        public ConfigurableSearcher(IRestaurantRepository restaurantRepository, IEnumerable<IFilter> filters,
+        public ConfigurableSeatSearcher(IRestaurantRepository restaurantRepository, IEnumerable<IFilter> filters,
             IEnumerable<IScoreCalculator> scoreCalculators, IEnumerable<ISorter> sorters)
         {
             _restaurantRepository = restaurantRepository;

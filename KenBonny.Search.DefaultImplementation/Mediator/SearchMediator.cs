@@ -6,20 +6,20 @@ using Seat = KenBonny.Search.Core.ReturnModel.Seat;
 
 namespace KenBonny.Search.DefaultImplementation.Mediator
 {
-    public class SearchMediator : ISearcher
+    public class SearchMediator : ISeatSearcher
     {
-        private readonly Dictionary<Type, ISearcher> _searchers = new Dictionary<Type, ISearcher>();
+        private readonly Dictionary<Type, ISeatSearcher> _searchers = new Dictionary<Type, ISeatSearcher>();
 
-        public void Register<T>(ISearcher searcher) where T : SearchQuery
+        public void Register<T>(ISeatSearcher seatSearcher) where T : SearchQuery
         {
             var queryType = typeof(T);
             if (IsKnownType(queryType))
             {
-                _searchers[queryType] = searcher;
+                _searchers[queryType] = seatSearcher;
             }
             else
             {
-                _searchers.Add(queryType, searcher);
+                _searchers.Add(queryType, seatSearcher);
             }
         }
 
