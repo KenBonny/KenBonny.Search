@@ -22,6 +22,7 @@ namespace KenBonny.Search.Core.ReadModel
         }
 
         public Section Section { get; set; }
+        public bool IsEmpty => _seats.All(seat => seat.IsEmpty);
 
         public override string ToString()
         {

@@ -7,20 +7,30 @@ namespace KenBonny.Search.DefaultImplementation.ScoreCalculators
 {
     public class SameFamilyScoreCalculator : IScoreCalculator
     {
+        private const int NoScore = 0;
+        private const int TableWithFamily = 1;
+        private const int EmptyTable = 2;
+        private const int TableWithStrangers = 3;
+        
         public int CalculateScore(Seat seat, SearchQuery query)
         {
             var unreservedSeatForDinerQuery = query as UnreservedSeatForDinerQuery;
             if (unreservedSeatForDinerQuery == null)
             {
-                return 0;
+                return NoScore;
             }
 
             if (seat.Table.Seats.Where(s => s.IsOccupied).Any(s => SameFamily(s, unreservedSeatForDinerQuery)))
             {
-                return 1;
+                return TableWithFamily;
+            }
+            
+            if (seat.Table.IsEmpty)
+            {
+                return EmptyTable;
             }
 
-            return -1;
+            return TableWithStrangers;
         }
 
         private static bool SameFamily(Seat s, UnreservedSeatForDinerQuery query)
