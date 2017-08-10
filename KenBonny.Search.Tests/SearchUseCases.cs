@@ -19,7 +19,7 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void LookForSeatInRestaurant()
         {
-            ISearcher search = new ConfigurableSearch(new SpecificRestaurantRepository(), new[] {new EmptySeatsFilter()},
+            ISearcher search = new ConfigurableSearcher(new SpecificRestaurantRepository(), new[] {new EmptySeatsFilter()},
                 new[] {new SameFamilyScoreCalculator()}, new[] {new PreferTablesWithGuestsSorter()});
             var query = new UnreservedSeatInRestaurantQuery("De Peirdestal");
 
@@ -33,7 +33,7 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void LookForSeatForDiner()
         {
-            ISearcher search = new ConfigurableSearch(new AllRestaurantRepository(), new[] {new EmptySeatsFilter()},
+            ISearcher search = new ConfigurableSearcher(new AllRestaurantRepository(), new[] {new EmptySeatsFilter()},
                 new[] {new SameFamilyScoreCalculator()}, new[] {new PreferTablesWithGuestsSorter()});
             var query = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
 
@@ -47,7 +47,7 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void CheckForReservationForDinerWithReservation()
         {
-            ISearcher search = new ConfigurableSearch(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISearcher search = new ConfigurableSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
             ISearcher reservationChecker = new ReservationCheckerDecorator(search, new ReservationRepository());
             var firstName = "John";
@@ -67,7 +67,7 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void CheckForReservationForDinerWithoutReservation()
         {
-            ISearcher search = new ConfigurableSearch(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISearcher search = new ConfigurableSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
             var query = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
             ISearcher reservationChecker = new ReservationCheckerDecorator(search, new ReservationRepository());
@@ -82,9 +82,9 @@ namespace KenBonny.Search.Tests
         [Fact]
         public void RouteQueryToCorrectSearcher()
         {
-            ISearcher searchAcrossRestaurants = new ConfigurableSearch(new SpecificRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISearcher searchAcrossRestaurants = new ConfigurableSearcher(new SpecificRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
-            ISearcher searchSpecificRestaurant = new ConfigurableSearch(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
+            ISearcher searchSpecificRestaurant = new ConfigurableSearcher(new AllRestaurantRepository(), new[] { new EmptySeatsFilter() },
                 new[] { new SameFamilyScoreCalculator() }, new[] { new PreferTablesWithGuestsSorter() });
             var mediator = new SearchMediator();
             mediator.Register<UnreservedSeatInRestaurantQuery>(searchAcrossRestaurants);
