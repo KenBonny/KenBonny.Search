@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -10,7 +9,6 @@ using KenBonny.Search.DataAccess;
 using KenBonny.Search.DefaultImplementation;
 using KenBonny.Search.DefaultImplementation.Decorators;
 using KenBonny.Search.DefaultImplementation.Filters;
-using KenBonny.Search.DefaultImplementation.Mediator;
 using KenBonny.Search.DefaultImplementation.ScoreCalculators;
 using KenBonny.Search.DefaultImplementation.Sorters;
 using Xunit;
