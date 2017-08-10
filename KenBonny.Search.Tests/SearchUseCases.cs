@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using KenBonny.Search.Core;
+using KenBonny.Search.Core.Mediator;
 using KenBonny.Search.Core.Queries;
 using KenBonny.Search.Core.ReturnModel;
 using KenBonny.Search.DataAccess;
