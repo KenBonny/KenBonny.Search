@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KenBonny.Search.Core;
 using KenBonny.Search.Core.Queries;
-using KenBonny.Search.Core.ReadModel;
+using Seat = KenBonny.Search.Core.ReturnModel.Seat;
 
 namespace KenBonny.Search.DefaultImplementation.Decorators
 {
@@ -27,7 +28,10 @@ namespace KenBonny.Search.DefaultImplementation.Decorators
             var reservedSeat = _reservationRepository.FindReservedSeat(unreservedSeatForDinerQuery.DinerFirstName, unreservedSeatForDinerQuery.DinerLastName);
             if (reservedSeat != null)
             {
-                return new[] {reservedSeat};
+                var returnSeat = new Seat(reservedSeat.Table.Section.Restaurant.Name, 
+                    reservedSeat.Table.Section.Id,
+                    reservedSeat.Table.Id);
+                return new[] {returnSeat};
             }
 
             return _innerSearcher.FindSeats(query);

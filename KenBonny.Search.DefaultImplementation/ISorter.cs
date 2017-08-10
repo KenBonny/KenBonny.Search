@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using KenBonny.Search.Core.ReadModel;
+using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DefaultImplementation
 {

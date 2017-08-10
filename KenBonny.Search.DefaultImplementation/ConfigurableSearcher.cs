@@ -2,7 +2,7 @@
 using System.Linq;
 using KenBonny.Search.Core;
 using KenBonny.Search.Core.Queries;
-using KenBonny.Search.Core.ReadModel;
+using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DefaultImplementation
 {
@@ -21,14 +21,21 @@ namespace KenBonny.Search.DefaultImplementation
             _scoreCalculators = scoreCalculators;
             _sorters = sorters;
         }
-        
-        public IReadOnlyCollection<Seat> FindSeats(SearchQuery query)
+
+        public IReadOnlyCollection<Core.ReturnModel.Seat> FindSeats(SearchQuery query)
         {
             var availableSeats = GetAvailableSeats(query);
             var scoredSeats = ScoreSeats(query, availableSeats);
             var orderedSeats = OrderSeats(query, scoredSeats);
 
-            return orderedSeats.ToList();
+            return MapResult(orderedSeats);
+        }
+
+        private static List<Core.ReturnModel.Seat> MapResult(IEnumerable<Seat> orderedSeats)
+        {
+            return orderedSeats.Select(seat =>
+                    new Core.ReturnModel.Seat(seat.Table.Section.Restaurant.Name, seat.Table.Section.Id, seat.Table.Id))
+                .ToList();
         }
 
         private IEnumerable<Seat> OrderSeats(SearchQuery query, List<SeatWithScore> scoredSeats)
@@ -86,12 +93,12 @@ namespace KenBonny.Search.DefaultImplementation
             var allRestaurants = _restaurantRepository.FindRestaurants(query);
             var availableSeats = allRestaurants.SelectMany(restaurant => restaurant.Sections)
                 .SelectMany(section => section.Tables).SelectMany(table => table.Seats);
-            
+
             foreach (var filter in _filters)
             {
                 availableSeats = filter.RemoveUnwantedSeats(availableSeats);
             }
-            
+
             return availableSeats;
         }
     }

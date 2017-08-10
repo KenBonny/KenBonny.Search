@@ -1,4 +1,4 @@
-namespace KenBonny.Search.Core.ReadModel
+namespace KenBonny.Search.DefaultImplementation.ReadModel
 {
     public class Seat
     {

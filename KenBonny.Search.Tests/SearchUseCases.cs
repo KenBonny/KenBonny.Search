@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using KenBonny.Search.Core;
 using KenBonny.Search.Core.Queries;
+using KenBonny.Search.Core.ReturnModel;
 using KenBonny.Search.DataAccess;
 using KenBonny.Search.DefaultImplementation;
 using KenBonny.Search.DefaultImplementation.Decorators;
@@ -25,9 +27,7 @@ namespace KenBonny.Search.Tests
 
             var seats = search.FindSeats(query);
 
-            seats.Should().HaveCount(38, "Should only be the empty seats from 'De Peirdestal'");
-            seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
-            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
+            ValidatePeirdestal(seats);
         }
 
         [Fact]
@@ -39,9 +39,7 @@ namespace KenBonny.Search.Tests
 
             var seats = search.FindSeats(query);
 
-            seats.Should().HaveCount(58, "Should be all empty seats in both restaurants");
-            seats.First().Table.Id.Should().Be(1, "Should be the table with no people sitting at it.");
-            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Ken"));
+            ValidateMultipleRestaurants(seats);
         }
 
         [Fact]
@@ -57,11 +55,10 @@ namespace KenBonny.Search.Tests
             var seats = reservationChecker.FindSeats(query);
 
             seats.Should().HaveCount(1);
-
-            var diner = seats.First().Diner;
-            diner.Should().NotBeNull();
-            diner.FirstName.Should().Be(firstName);
-            diner.LastName.Should().Be(lastName);
+            var seat = seats.First();
+            seat.Restaurant.Should().Be("De Peirdestal");
+            seat.SectionId.Should().Be(0);
+            seat.TableId.Should().Be(2);
         }
 
         [Fact]
@@ -74,9 +71,7 @@ namespace KenBonny.Search.Tests
 
             var seats = reservationChecker.FindSeats(query);
 
-            seats.Should().HaveCount(58, "Should be all empty seats in both restaurants");
-            seats.First().Table.Id.Should().Be(1, "Should be the table with no people sitting at it.");
-            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Ken"));
+            ValidateMultipleRestaurants(seats);
         }
 
         [Fact]
@@ -95,16 +90,31 @@ namespace KenBonny.Search.Tests
             var unreservedSeatForDinerQuery = new UnreservedSeatForDinerQuery("Dwayne", "Johnson");
             var seats = searcher.FindSeats(unreservedSeatForDinerQuery);
 
-            seats.Should().HaveCount(58, "Should be all empty seats in both restaurants");
-            seats.First().Table.Id.Should().Be(1, "Should be the table with no people sitting at it.");
-            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Ken"));
+            ValidateMultipleRestaurants(seats);
 
             var query = new UnreservedSeatInRestaurantQuery("De Peirdestal");
             seats = searcher.FindSeats(query);
 
-            seats.Should().HaveCount(38, "Should only be the empty seats from 'De Peirdestal'");
-            seats.First().Table.Id.Should().Be(2, "Should be the table with people sitting at it.");
-            seats.First().Table.Section.Servers.Should().Contain(s => s.Name.Equals("Joxer"));
+            ValidatePeirdestal(seats);
+        }
+
+        private void ValidatePeirdestal(IReadOnlyCollection<Seat> foundSeats)
+        {
+            foundSeats.Should().HaveCount(38, "Should only be the empty seats from 'De Peirdestal'");
+            var seat = foundSeats.First();
+            seat.Should().NotBeNull();
+            seat.Restaurant.Should().Be("De Peirdestal");
+            seat.SectionId.Should().Be(0, "Should be Joxers section");
+            seat.TableId.Should().Be(2, "Should be table with people");
+        }
+        
+        private void ValidateMultipleRestaurants(IReadOnlyCollection<Seat> foundSeats)
+        {
+            foundSeats.Should().HaveCount(58, "Should be all empty seats in both restaurants");
+            var seat = foundSeats.First();
+            seat.Restaurant.Should().Be("Come Chez Moi");
+            seat.SectionId.Should().Be(0, "Should be Ken's section");
+            seat.TableId.Should().Be(1, "Should be the table with no people sitting at it.");
         }
     }
 }

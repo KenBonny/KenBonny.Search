@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using KenBonny.Search.Core.Queries;
-using KenBonny.Search.Core.ReadModel;
+using KenBonny.Search.Core.ReturnModel;
 
 namespace KenBonny.Search.Core
 {

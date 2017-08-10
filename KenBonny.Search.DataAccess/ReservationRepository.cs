@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using KenBonny.Search.Core.ReadModel;
 using KenBonny.Search.DefaultImplementation.Decorators;
+using KenBonny.Search.DefaultImplementation.ReadModel;
 
 namespace KenBonny.Search.DataAccess
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using KenBonny.Search.Core;
 using KenBonny.Search.Core.Queries;
-using KenBonny.Search.Core.ReadModel;
+using Seat = KenBonny.Search.Core.ReturnModel.Seat;
 
 namespace KenBonny.Search.DefaultImplementation.Mediator
 {

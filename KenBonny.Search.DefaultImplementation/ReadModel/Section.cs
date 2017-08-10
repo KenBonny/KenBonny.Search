@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace KenBonny.Search.Core.ReadModel
+namespace KenBonny.Search.DefaultImplementation.ReadModel
 {
     public class Section
     {

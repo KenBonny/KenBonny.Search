@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace KenBonny.Search.Core.ReadModel
+namespace KenBonny.Search.DefaultImplementation.ReadModel
 {
     public class Server
     {

@@ -1,6 +1,4 @@
-﻿using KenBonny.Search.Core.ReadModel;
-
-namespace KenBonny.Search.Core.Queries
+﻿namespace KenBonny.Search.Core.Queries
 {
     public class UnreservedSeatInRestaurantQuery : SearchQuery
     {

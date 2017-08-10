@@ -1,4 +1,4 @@
-namespace KenBonny.Search.Core.ReadModel
+namespace KenBonny.Search.DefaultImplementation.ReadModel
 {
     /// <summary>
     /// Person eating at a restaurant
